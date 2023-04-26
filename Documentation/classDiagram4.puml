@@ -1,0 +1,144 @@
+@startuml
+!pragma layout smetana
+'https://plantuml.com/class-diagram
+
+class Main{
+- static Nav nav
+- static TextUI textUI
++ static void main()
++ static User startMenu()
+
+}
+
+
+
+class StartMenu{
+- static FileIO fileIO
+- static textUI textUI
++ void runMenu()
++ user login()
++ void logOut()
+- user signUp()
+- int age()
+}
+
+class Nav {
+- File fileIO
+- TextUI textUI
++ Nav(User u)
++ void mainMenu()
++ void searchByTitle()
++ void movieAction()
++ void viewSaved()
++ viewWatched()
+}
+class Connector{
++ checkConnection();
+- Map content(String[] c)
+- Movie movie(String[] m)
+- Series series(String[] s)
++readSeriesData(String field, String query)
++readMovieData (String field, String query)
++readUserData(String username, String password)
+}
+
+
+class SQL{
+- connect();
++ Series readSeriesData(String field, String query)
++ Movie readMovieData(String field, String query)
++ String readUserData(String username, String password)
++ void writeUserData(User u)
++ void updateUserData(User u)
+}
+
+
+class FileIO {
++ Series readSeriesData(String field, String query)
++ Movie readMovieData(String field, String query)
++ String readUserData(String username, String password)
++ void writeUserData(User u)
++ void updateUserData(User u)
+- int getRow(String rowType)
+}
+
+class TextUI {
+- Scanner scan
++ String getUserInput(String msg)
++ String getUserInput(String msg, ArrayList options)
+}
+
+class User {
+- int ID
+- int age
+- String username
+- String password
+- ArrayList<Integer> watchedMovies
+- ArrayList<Integer> savedMovies
++ User(String username, String password, int age, int ID, ArrayList watchedMovies, ArrayList savedMovies)
++ void setWatchedMovie(int watched)
++ void setSavedMovie(int Saved)
++ ArrayList<Integer> getWatchedMovies()
++ ArrayList<Integer> getSavedMovies()
++ void removeSavedMovie(int ID)
++ int getAge()
++ String getUsername()
++ String getPassword()
++ int getID()
+}
+
+class Movie {
+- int year
++ Movie(String title, ArrayList categories, float rating, int year, int ID)
++ String getTitle()
++ int getYear()
+}
+
+class Series {
+- int startDate
+- int endDate
+- ArrayList<String> season
++ Series(String title, ArrayList categories, float rating, int startDate, int endDate, ArrayList season, int ID)
++ String getYear()
+}
+
+abstract Content {
+- int ID
+- String title
+- ArrayList<String> categories
+- float rating
++ Content(String title, ArrayList categories, float rating, int ID)
++ int getID()
++ String getTitle()
++ ArrayList getCategories()
++ float getRating()
++ String toString()
+}
+
+
+Main <-- StartMenu
+StartMenu <-- Connector
+
+Main <-- Nav
+Nav <-- Connector
+Connector <-- SQL
+Connector <-- FileIO
+Main <-- TextUI
+Nav <-- User
+Nav <-- Content
+Nav <-- TextUI
+Content <-- Movie
+Content <-- Series
+
+object movies.txt {
+title;categories[];rating;year
+}
+
+object series.txt {
+title;categories[];rating;startDate;endDate;season[]
+}
+object users.txt {
+username;password;age;watchedMovies[];savedMovies[]
+}
+
+@enduml
